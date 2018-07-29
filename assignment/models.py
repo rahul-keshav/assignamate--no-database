@@ -39,12 +39,6 @@ class StudymaterialManager(models.Manager):
 
 ######################
 
-
-
-
-
-
-
 # Create your models here.
 class Assignment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -77,8 +71,8 @@ class Questions(models.Model,):
     number_of_wrong_answered=models.IntegerField(default=0)
     positive_marks=models.IntegerField(default=0)
     negative_marks=models.IntegerField(default=0)
-    hint=models.CharField(max_length=500)
-    tags=models.CharField(max_length=45)
+    hint=models.CharField(max_length=500,blank=True)
+    tags=models.CharField(max_length=45,blank=True)
 
 
     def __str__(self):
@@ -91,7 +85,7 @@ class Questions(models.Model,):
 class Assignment_answered_by(models.Model):
     name_of_assignment=models.CharField(max_length=30)
     name_of_teacher=models.CharField(max_length=150,blank=True)
-    assigner_username=models.CharField(max_length=150,blank=True)
+    assigner_username=models.CharField(max_length=150)
     assignment_id=models.IntegerField()
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     answer_string=models.CharField(max_length=400)
