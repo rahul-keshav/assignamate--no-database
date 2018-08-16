@@ -145,7 +145,7 @@ PREVIEW_URLS = (
     r'^assignment/assignment/(?P<pk>\d+)$',
     r'^assignment/(?:search?(?P<slug>[\w+]))$',
     r'^assignment/studymaterial',
-    r'^media/documents/(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/(?P<day>[0-9]{2})/(?P<slug>[\W])$',
+    r'^media/documents/(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/(?P<day>[0-9]{2})/(?P<slug>[\W\w])$',
 
 
 )
