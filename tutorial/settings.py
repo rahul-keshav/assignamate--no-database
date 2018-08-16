@@ -138,6 +138,17 @@ LOGIN_EXEMPT_URLS=(
     r'^accounts/reset-password/confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$',
     r'^accounts/reset-password/complete/$',
 )
+PREVIEW_URLS = (
+    r'^home/$',
+    r'^home/mypost/(?P<pk>\d+)$',
+    r'^assignment/$',
+    r'^assignment/assignment/(?P<pk>\d+)$',
+    r'^assignment/(?:search?(?P<slug>[\w+]))$',
+    r'^assignment/studymaterial',
+    r'^media/documents/(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/(?P<day>[0-9]{2})/(?P<slug>[\W])$',
+
+
+)
 
 EMAIL_HOST='localhost'
 EMAIL_PORT='1025'
