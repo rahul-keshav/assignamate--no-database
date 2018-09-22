@@ -2,13 +2,13 @@ from django.urls import path,include
 from django.conf.urls import url
 from assignment.views import view_list_assignment,\
     QuestionView,assignmentCreate,QuestionAdd,\
-    view_list_my_assignment,assignment_check,\
-    studymaterial_upload,SearchView,result,\
+    view_list_my_assignment,assignment_check, \
+    booklet_upload,SearchView,result,\
     answersheet,blog_site_list,add_blog_site,view_blog_site,\
     add_blog,blog,QuestionUpdate,AssignmentUpdate,QuestionDelete,\
     index,AssignmentLikeToggle,booklet,my_booklet,\
     index_booklet,index_jee_main,index_jee_adv,index_ssc,index_others,\
-    show_submission,filter_search,add_intrest,IntrestDelete,home
+    show_submission,filter_search,add_interest,InterestDelete,home
 
 
 app_name='assignment'
@@ -20,7 +20,7 @@ urlpatterns = [
     path('index_jee_adv',index_jee_adv,name='index_jee_adv'),
     path('index_ssc',index_ssc,name='index_ssc'),
     path('index_others',index_others,name='index_others'),
-    path('add_intrest',add_intrest,name='add_intrest'),
+    path('add_interest',add_interest,name='add_interest'),
 
 
     path('all-assignment',view_list_assignment,name='assignment_page'),
@@ -34,12 +34,12 @@ urlpatterns = [
     path('question/update/<pk>',QuestionUpdate.as_view(),name='question_update'),
     path('question/delete/<pk>',QuestionDelete.as_view(),name='question_delete'),
     path('assignment_check/<int:assignment_id>',assignment_check,name='assignment_check'),
-    path('uploadfile/',studymaterial_upload,name='uploadfile'),
+    path('uploadfile/',booklet_upload,name='uploadfile'),
 
 
     path('search',SearchView.as_view(),name='search'),
     path('filter',filter_search,name='filter'),
-    path('delete_intrest/<pk>',IntrestDelete.as_view(),name='delete_intrest'),
+    path('delete_interest/<pk>',InterestDelete.as_view(),name='delete_interest'),
 
 
 

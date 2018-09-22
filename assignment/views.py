@@ -1,9 +1,9 @@
 from django.shortcuts import render,redirect,reverse,get_object_or_404,render_to_response
 from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView,View
 from .models import Assignment,Questions,Assignment_answered_by, \
-    Booklet,Blogsite,Blog_page,Assignmentlikecounter,Intrests
+    Booklet,Blogsite,Blog_page,Assignmentlikecounter,Interests
 from django.contrib.auth.models import User
-from assignment.forms import QuestionForm,DocumentForm,Blog_site_Form,BlogForm,AssignmentForm,Intrest_form
+from assignment.forms import QuestionForm,DocumentForm,Blog_site_Form,BlogForm,AssignmentForm,Interest_form
 from django.core.paginator import Paginator
 from django.urls import reverse_lazy
 from itertools import chain
@@ -18,10 +18,10 @@ def home(request):
 def index(request):
     if request.user.is_authenticated:
         dictionary2 = {}
-        for intrest in request.user.intrests_set.all():
-            list_of_assignment=list(Assignment.objects.intrests(intrest))
-            dictionary2[intrest]=list_of_assignment
-        intrests = request.user.intrests_set.all()
+        for interest in request.user.interests_set.all():
+            list_of_assignment=list(Assignment.objects.intrests(interest))
+            dictionary2[interest]=list_of_assignment
+        intrests = request.user.interests_set.all()
         for useraccount in request.user.is_following.all():
             user=useraccount.user
             name=user.username
@@ -35,20 +35,20 @@ def index(request):
         dictionary = {'JEE-Mains':list_jee,'JEE-Adv':list_jee_adv,'SSC':list_ssc}
         return render(request, 'assignment/index2.html', {'dictionary':dictionary})
 
-def add_intrest(request):
+def add_interest(request):
     if request.method=='POST':
-        form=Intrest_form(request.POST)
+        form=Interest_form(request.POST)
         if form.is_valid():
             intrest=form.save(commit=False)
             intrest.user=request.user
             intrest.save()
             return redirect(reverse('assignment:index'))
     else:
-        form=Intrest_form
+        form=Interest_form
     return render(request,'assignment/add_intrest_form.html',{'form': form})
 
-class IntrestDelete(DeleteView):
-    model = Intrests
+class InterestDelete(DeleteView):
+    model = Interests
     success_url = reverse_lazy('assignment:index')
 
 
@@ -77,15 +77,6 @@ def index_others(request):
     return render(request, 'assignment/index_exam.html', {'heading':heading,'list': list})
 
 
-def index_booklet(request):
-    list_studymaterial=[]
-    for useraccount in request.user.is_following.all():
-        user=useraccount.user
-        # print(user)
-        for studymaterial in user.studymaterial_set.all():
-            list_studymaterial.append(studymaterial)
-
-    return render(request,'assignment/studymaterial.html',{'studymaterial':list_studymaterial})
 
 
 def view_list_assignment(request):
@@ -101,8 +92,8 @@ def view_list_my_assignment(request,pk=None):
         user=get_object_or_404(User,pk=pk)#User.objects.get(pk=pk)
     else:
         user = request.user
-    studymaterial = Studymaterial.objects.all()
-    args={'user':user,'studymaterial': studymaterial}
+    booklet = Booklet.objects.all()
+    args={'user':user,'booklet': booklet}
     return render(request,'assignment/my_assignment_page.html',args)
 
 
@@ -230,7 +221,6 @@ def answersheet(request,ass_id, ans_id):
     return render(request,'assignment/answersheetpage.html', {'assignment':assignment,'answer':list1})
 
 
-
 def add_blog_site(request):
     if request.method=='POST':
         form=Blog_site_Form(request.POST,request.FILES)
@@ -278,22 +268,33 @@ def result(request):
     return render(request,'assignment/result.html',{'result':result,})
 
 
+def index_booklet(request):
+    list_booklet = []
+    for useraccount in request.user.is_following.all():
+        user=useraccount.user
+        # print(user)
+        for booklet in user.booklet_set.all():
+            list_booklet.append(booklet)
+
+    return render(request,'assignment/booklet.html',{'booklet':list_booklet})
+
+
 def booklet(request):
     booklet = Booklet.objects.all()
-    return render(request,'assignment/studymaterial.html',{'booklet':booklet})
+    return render(request,'assignment/booklet.html',{'booklet':booklet})
 
 
-def studymaterial_upload(request):
+def booklet_upload(request):
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
         if form.is_valid():
-            study_material=form.save(commit=False)
-            study_material.user=request.user
-            study_material.save()
+            booklet=form.save(commit=False)
+            booklet.user=request.user
+            booklet.save()
             return redirect(reverse('assignment:my-booklet'))
     else:
         form = DocumentForm()
-    return render(request, 'assignment/studymaterial_upload.html', {'form': form})
+    return render(request, 'assignment/booklet_upload.html', {'form': form})
 
 
 def my_booklet(request,pk=None):
@@ -302,7 +303,7 @@ def my_booklet(request,pk=None):
     else:
         user = request.user
     booklet=user.booklet_set.all()
-    return render(request,'assignment/studymaterial.html',{'booklet':booklet})
+    return render(request,'assignment/booklet.html',{'booklet':booklet})
 ################
 # filter
 ###############
