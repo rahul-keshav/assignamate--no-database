@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_filters',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -80,8 +82,12 @@ WSGI_APPLICATION = 'tutorial.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'assignmate',
+        'USER': 'postgres',
+        'PASSWORD': 'lvuwhat*',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 
@@ -126,7 +132,7 @@ STATIC_URL = '/static/'
 MEDIA_URL='/media/'
 MEDIA_ROOT= os.path.join(BASE_DIR,'tutorial/media')
 
-LOGIN_REDIRECT_URL='/home/'
+LOGIN_REDIRECT_URL = '/'
 
 LOGIN_URL = '/accounts/login/'
 
@@ -138,16 +144,22 @@ LOGIN_EXEMPT_URLS=(
     r'^accounts/reset-password/confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$',
     r'^accounts/reset-password/complete/$',
 )
+
 PREVIEW_URLS = (
+    #assignment url
+    r'^$',
+    r'^index_jee_main$',
+    r'^index_jee_adv$',
+    r'^index_ssc$',
+    r'^index_others$',
+    r'^assignment/(?P<pk>\d+)$',
+    r'^(?:search?(?P<slug>[\w+]))$',
+    r'^booklet',
+    # home url
     r'^home/$',
     r'^home/mypost/(?P<pk>\d+)$',
-    r'^assignment/$',
-    r'^assignment/assignment/(?P<pk>\d+)$',
-    r'^assignment/(?:search?(?P<slug>[\w+]))$',
-    r'^assignment/studymaterial',
-    r'^media/documents/(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/(?P<day>[0-9]{2})/(?P<slug>[\W\w])$',
-
-
+    # media url
+    r'^media/(?P<path>.*)$',
 )
 
 EMAIL_HOST='localhost'

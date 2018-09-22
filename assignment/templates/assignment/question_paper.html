@@ -1,4 +1,5 @@
 {% extends 'accounts/base.html'%}
+{% block title%}<title>Qusetion Paper</title>{% endblock %}
 {% block style %}
 <style>
 .w3-myfont {
@@ -14,6 +15,7 @@
 
         {% if request.user == assignment.user %}
             <small><a href="{% url 'assignment:question_add' assignment.id %}" > +add question</a></small>
+            <small><a href="{% url 'assignment:show_submission' assignment.id %}" > >>show all submission</a></small>
         {% endif %}
     <hr/>
 

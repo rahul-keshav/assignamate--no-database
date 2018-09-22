@@ -1,8 +1,40 @@
 from django import forms
 
-from .models import Assignment,Questions,Studymaterial,Blogsite,Blog_page
+from .models import Assignment,Questions,Booklet,Blogsite,Blog_page,Intrests
 
 from django.contrib.auth.models import User
+
+class AssignmentForm(forms.ModelForm):
+    title = forms.CharField(widget=forms.TextInput(
+        attrs={
+            'class': 'form-control',
+            'placeholder': 'Write a question...'
+        }
+    ))
+    discription = forms.CharField(widget=forms.Textarea(
+        attrs={
+            'class': 'form-control',
+            'placeholder': 'Write description...'
+        }
+    ),required=False)
+    CATEGORY_CHOICES = (
+        ('jee_main', 'JEE-Main'),
+        ('jee-advance', 'JEE-ADVANCE'),
+        ('gate-cs', 'GATE-computer Science and IT'),
+        ('gate-me', 'GATE-Mechanical Engineering'),
+        ('gate-ee', 'GATE-Electrical Engineering'),
+        ('gate-ece', 'GATE-electronics Engineering'),
+        ('gate-ce', 'GATE-Civil Engineering'),
+        ('gate-mt', 'GATE-Metallurgical and Materials Engineering'),
+        ('ssc', 'SSC'),
+        ('other','OTHERS')
+    )
+    category = forms.ChoiceField(widget=forms.Select,choices=CATEGORY_CHOICES)
+
+    class Meta:
+        model=Assignment
+        fields = ('title', 'discription', 'category')
+
 
 class QuestionForm(forms.ModelForm):
     question=forms.CharField(widget=forms.TextInput(
@@ -87,7 +119,7 @@ class QuestionForm(forms.ModelForm):
 
 class DocumentForm(forms.ModelForm):
     class Meta:
-        model = Studymaterial
+        model = Booklet
         fields = ('name', 'subject','discription', 'document', )
 
 
@@ -121,7 +153,7 @@ class Blog_site_Form(forms.ModelForm):
     quotes = forms.CharField(widget=forms.TextInput(
         attrs={
             'class': 'form-control',
-            'placeholder': 'Write your title...'
+            'placeholder': 'Write your quotes...'
         }
     ),required=False)
 
@@ -135,6 +167,12 @@ class Blog_site_Form(forms.ModelForm):
     class Meta:
         model=Blogsite
         fields=('name','quotes','discription','background_image')
+
+class Intrest_form(forms.ModelForm):
+    class Meta:
+        model =Intrests
+        fields=('intrest',)
+
 
 
 
